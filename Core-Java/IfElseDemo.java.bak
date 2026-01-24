@@ -1,0 +1,78 @@
+class IfElseDemo 
+{
+	public static void main(String[] args) 
+	{
+		int baccha=100;
+		
+		//dukan chalte ha
+
+		if(baccha==10) //100 false
+		{
+			System.out.println("10 wali dairy milk");
+			if(baccha>4)
+			{
+				System.out.println("aja meri gadi me bhej jaa");
+				baccha=baccha-2;
+				if(baccha>2)
+				{
+					baccha=baccha-2;
+					System.out.println("chalo nashe krte ha...");
+
+					if(baccha==300000)
+					{
+						baccha=baccha-300000;
+						System.out.println("mall kreed lete hai...");
+					}
+					else{
+						System.out.println("chata pada...");
+					}
+				}
+				else{
+					System.out.println("chal hat greeb....");
+				}
+			}
+
+		}
+		else {
+			System.out.println("chalo 5 star hi do");
+			baccha=baccha-5; //95
+	
+			if(baccha==5000)
+			{
+
+				System.out.println("oye ek bmw laga jara");
+			}
+			else{
+				System.out.println("ro mat to ye choti car le jaa wo bhi free....");
+			}
+			System.out.println(baccha);
+			if(baccha>=200)
+			{
+				System.out.println("orange candy...");
+			}
+			else if(baccha>203)
+			{
+				System.out.println("chlo ghumne chalte ha 203");
+			}
+			else if(baccha>92)
+			{
+				System.out.println("chlo ghumne chalte ha 92");
+			}
+			else if(baccha>91)
+			{
+				System.out.println("chlo ghumne chalte ha 91");
+			}
+			else {
+				System.out.println("main to greeb hu...");
+				if(baccha>=1)
+				{
+					System.out.println("ek old monk de do..");
+				}
+				else{
+					System.out.println("mar khayega kya jaa yha se...");
+				}
+			}
+		}
+
+	}
+}

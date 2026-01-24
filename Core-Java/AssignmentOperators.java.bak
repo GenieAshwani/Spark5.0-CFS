@@ -1,0 +1,11 @@
+class AssignmentOperators 
+{
+	public static void main(String[] args) 
+	{
+		int num=10;
+		int b=2;
+		
+		num-=b
+		System.out.println(num);
+	}
+}

@@ -1,0 +1,32 @@
+class ArrayDemo 
+{
+	public static void main(String[] args) 
+	{
+
+	  int arr[]=new int[5];
+	  //lenght = 5 
+	  int arr1[]={10,11,12,13,14,15,16};
+	   
+	   /*arr[1]=10;
+	   arr[0]=5;
+	   arr[2]=20;
+	   arr[3]=30;
+	   arr[4]=40;
+	   arr[2]=80;
+	   */
+
+	   for(int i=0;i<arr1.length;i++)
+		{
+			System.out.println("at index "+i+ " values is = "+arr1[i]);
+		}
+
+		System.out.println("-----------------------------");
+		for(int data:arr1)
+		{
+			System.out.println(data);
+		}
+
+	   
+		
+	}
+}

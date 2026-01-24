@@ -1,0 +1,21 @@
+
+ class Student
+{
+	String name;
+	int age;
+	void study()
+	{
+		System.out.println(name+" is stuyding");
+	}
+}
+
+
+
+public class Swift 
+{
+	public static void main(String[] args) 
+	{
+		System.out.println("Hello Swift....");
+		Swift a=new Swift();
+	}
+}
