@@ -12,4 +12,8 @@ public class UnboundDemo {
     {
         System.out.println(list);
     }
+
+    String s="abcd";
+
+    char[] ch=s.toCharArray();
 }
