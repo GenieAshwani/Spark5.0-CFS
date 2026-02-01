@@ -21,7 +21,9 @@ public class Test {
 
             //create statement
             Statement statement=connection.createStatement();
-            ResultSet resultSet=statement.executeQuery("select * from employee");
+
+           ResultSet resultSet=statement.executeQuery("select * from employee");
+            //boolean execute = statement.execute("select * from employee");
             while (resultSet.next())
             {
                 System.out.println(resultSet.getInt("empid")
