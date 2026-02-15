@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User registration</title>
+</head>
+<body>
+<h2>User Registration Form (GenericServlet)</h2>
+
+<form action="register">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required /><br /><br />
+
+    <label for="rollno">RollNo:</label>
+    <input type="text" id="rollno" name="rollno" required /><br /><br />
+    <label for="course">Courses:</label>
+    <select id="course" name="course" required>
+        <option value="">Select a course</option>
+        <option value="java">Java</option>
+        <option value="python">Python</option>
+        <option value="cpp">C++</option>
+        <option value="WebDev">WebDev</option></select
+    ><br /><br />
+    <label for="marks">Marks:</label>
+    <input type="number" id="marks" name="marks" required /><br /><br />
+
+    <input type="submit" value="Register" />
+</form>
+</body>
+</html>

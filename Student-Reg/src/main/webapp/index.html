@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Form</title>
+</head>
+<body>
+<h2>Student Registration Form</h2>
+<form action="reg" method="post">
+    Name: <input type="text" name="name" required /><br /><br />
+    Roll: <input type="text" name="roll" required /><br /><br />
+    Course:
+    <select name="course" required>
+        <option value="">Select Course</option>
+        <option value="Java">Java</option>
+        <option value="DSA">DSA</option>
+        <option value="WebDev">WebDev</option>
+        <option value="Spring boot">Spring boot</option></select
+    ><br /><br />
+    Marks: <input type="number" name="marks" required /><br /><br />
+    <button type="submit">Save</button>
+</form>
+
+<br />
+<a href="students">View All Students</a>
+</body>
+</html>
