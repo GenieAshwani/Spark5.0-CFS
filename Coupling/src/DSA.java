@@ -1,4 +1,8 @@
-package PACKAGE_NAME;
+public class DSA implements Course {
 
-public class DSA {
+
+    @Override
+    public void start() {
+        System.out.println("learning Array, String, Tree 🚀");
+    }
 }

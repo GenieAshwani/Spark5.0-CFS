@@ -1,4 +1,4 @@
-package org.example;
+package org.cfs;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -1,4 +1,7 @@
-package PACKAGE_NAME;
+public class SpringBoot implements Course{
 
-public class SpringBoot {
+    @Override
+    public void start() {
+        System.out.println("Learning spring boot....");
+    }
 }
