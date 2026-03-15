@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theaters - BookMyShow</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="../index.html" class="logo">Book<span>My</span>Show</a>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="movies.html">Movies</a>
+            <a href="theaters.html" class="active">Theaters</a>
+            <a href="bookings.html">My Bookings</a>
+            <a href="admin.html">Admin</a>
+        </div>
+        <div class="nav-user" id="nav-user"></div>
+    </nav>
+
+    <div class="container">
+        <h2 class="section-title">Theaters</h2>
+
+        <!-- City filter -->
+        <div class="city-bar" id="city-bar" style="background:transparent; padding:0; margin-bottom:1.5rem; border:none;">
+            <button class="city-chip active" onclick="loadTheaters(); activateChip(this)">All Cities</button>
+        </div>
+
+        <div class="grid grid-3" id="theaters-grid"></div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        async function loadCities() {
+            try {
+                const cities = await CityAPI.getAll();
+                const bar = document.getElementById('city-bar');
+                cities.forEach(city => {
+                    const chip = document.createElement('button');
+                    chip.className = 'city-chip';
+                    chip.textContent = city.name;
+                    chip.onclick = () => {
+                        activateChip(chip);
+                        loadTheatersByCity(city.id);
+                    };
+                    bar.appendChild(chip);
+                });
+            } catch (e) { console.log('No cities'); }
+        }
+
+        function activateChip(el) {
+            document.querySelectorAll('.city-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        async function loadTheaters() {
+            showLoading('theaters-grid');
+            try {
+                const theaters = await TheaterAPI.getAll();
+                renderTheaters(theaters);
+            } catch (e) {
+                showEmpty('theaters-grid', 'Could not load theaters');
+            }
+        }
+
+        async function loadTheatersByCity(cityId) {
+            showLoading('theaters-grid');
+            try {
+                const theaters = await TheaterAPI.getByCity(cityId);
+                renderTheaters(theaters);
+            } catch (e) {
+                showEmpty('theaters-grid', 'No theaters in this city');
+            }
+        }
+
+        function renderTheaters(theaters) {
+            const grid = document.getElementById('theaters-grid');
+            if (theaters.length === 0) { showEmpty('theaters-grid', 'No theaters found'); return; }
+            grid.innerHTML = theaters.map(t => `
+                <div class="card">
+                    <div class="card-body">
+                        <h3>🏛️ ${t.name}</h3>
+                        <p>📍 ${t.address || 'N/A'}</p>
+                        <p>🌆 ${t.city?.name || ''}, ${t.city?.state || ''}</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-sm btn-outline" onclick="viewScreens(${t.id}, '${t.name}')">View Screens</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function viewScreens(theaterId, theaterName) {
+            try {
+                const screens = await ScreenAPI.getByTheater(theaterId);
+                if (screens.length === 0) { showToast('No screens found', 'info'); return; }
+                let msg = `${theaterName} Screens:\n`;
+                screens.forEach(s => msg += `\n• ${s.name} (${s.totalSeats || '?'} seats)`);
+                alert(msg);
+            } catch (e) {
+                showToast('Could not load screens', 'error');
+            }
+        }
+
+        loadCities();
+        loadTheaters();
+    </script>
+</body>
+</html>

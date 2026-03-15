@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - BookMyShow</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="../index.html" class="logo">Book<span>My</span>Show</a>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="movies.html">Movies</a>
+            <a href="theaters.html">Theaters</a>
+            <a href="bookings.html">My Bookings</a>
+            <a href="admin.html" class="active">Admin</a>
+        </div>
+        <div class="nav-user" id="nav-user"></div>
+    </nav>
+
+    <div class="container">
+        <h2 class="section-title">Admin Panel</h2>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('cities', this)">Cities</button>
+            <button class="tab" onclick="switchTab('movies', this)">Movies</button>
+            <button class="tab" onclick="switchTab('theaters', this)">Theaters</button>
+            <button class="tab" onclick="switchTab('screens', this)">Screens</button>
+            <button class="tab" onclick="switchTab('seats', this)">Seats</button>
+            <button class="tab" onclick="switchTab('shows', this)">Shows</button>
+        </div>
+
+        <!-- ===== CITIES TAB ===== -->
+        <div id="tab-cities" class="tab-content">
+            <div style="display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap; align-items:flex-end;">
+                <div class="form-group" style="flex:1;min-width:150px;margin:0;">
+                    <label>City Name</label>
+                    <input type="text" id="city-name" placeholder="Mumbai">
+                </div>
+                <div class="form-group" style="flex:1;min-width:150px;margin:0;">
+                    <label>State</label>
+                    <input type="text" id="city-state" placeholder="Maharashtra">
+                </div>
+                <button class="btn btn-primary" onclick="addCity()">Add City</button>
+            </div>
+            <div id="cities-table"></div>
+        </div>
+
+        <!-- ===== MOVIES TAB ===== -->
+        <div id="tab-movies" class="tab-content" style="display:none;">
+            <div style="display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap; align-items:flex-end;">
+                <div class="form-group" style="flex:1;min-width:150px;margin:0;">
+                    <label>Title</label>
+                    <input type="text" id="movie-title" placeholder="Movie title">
+                </div>
+                <div class="form-group" style="flex:1;min-width:150px;margin:0;">
+                    <label>Genre</label>
+                    <input type="text" id="movie-genre" placeholder="Action">
+                </div>
+                <div class="form-group" style="flex:1;min-width:100px;margin:0;">
+                    <label>Language</label>
+                    <input type="text" id="movie-language" placeholder="Hindi">
+                </div>
+                <div class="form-group" style="flex:1;min-width:80px;margin:0;">
+                    <label>Duration (min)</label>
+                    <input type="number" id="movie-duration" placeholder="150">
+                </div>
+                <div class="form-group" style="flex:1;min-width:80px;margin:0;">
+                    <label>Rating</label>
+                    <input type="number" step="0.1" id="movie-rating" placeholder="8.5">
+                </div>
+                <div class="form-group" style="flex:1;min-width:120px;margin:0;">
+                    <label>Release Date</label>
+                    <input type="date" id="movie-release">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom:1rem;">
+                <label>Description</label>
+                <input type="text" id="movie-desc" placeholder="Short description">
+            </div>
+            <button class="btn btn-primary" onclick="addMovie()" style="margin-bottom:1.5rem;">Add Movie</button>
+            <div id="movies-table"></div>
+        </div>
+
+        <!-- ===== THEATERS TAB ===== -->
+        <div id="tab-theaters" class="tab-content" style="display:none;">
+            <div style="display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap; align-items:flex-end;">
+                <div class="form-group" style="flex:1;min-width:150px;margin:0;">
+                    <label>Theater Name</label>
+                    <input type="text" id="theater-name" placeholder="PVR Cinemas">
+                </div>
+                <div class="form-group" style="flex:1;min-width:150px;margin:0;">
+                    <label>Address</label>
+                    <input type="text" id="theater-address" placeholder="Mall Road">
+                </div>
+                <div class="form-group" style="flex:1;min-width:120px;margin:0;">
+                    <label>City</label>
+                    <select id="theater-city"></select>
+                </div>
+                <button class="btn btn-primary" onclick="addTheater()">Add Theater</button>
+            </div>
+            <div id="theaters-table"></div>
+        </div>
+
+        <!-- ===== SCREENS TAB ===== -->
+        <div id="tab-screens" class="tab-content" style="display:none;">
+            <div style="display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap; align-items:flex-end;">
+                <div class="form-group" style="flex:1;min-width:150px;margin:0;">
+                    <label>Screen Name</label>
+                    <input type="text" id="screen-name" placeholder="Screen 1">
+                </div>
+                <div class="form-group" style="flex:1;min-width:100px;margin:0;">
+                    <label>Total Seats</label>
+                    <input type="number" id="screen-seats" placeholder="100">
+                </div>
+                <div class="form-group" style="flex:1;min-width:150px;margin:0;">
+                    <label>Theater</label>
+                    <select id="screen-theater"></select>
+                </div>
+                <button class="btn btn-primary" onclick="addScreen()">Add Screen</button>
+            </div>
+            <div id="screens-table"></div>
+        </div>
+
+        <!-- ===== SEATS TAB ===== -->
+        <div id="tab-seats" class="tab-content" style="display:none;">
+            <div style="display:flex; gap:1rem; margin-bottom:1rem; flex-wrap:wrap; align-items:flex-end;">
+                <div class="form-group" style="flex:1;min-width:120px;margin:0;">
+                    <label>Screen</label>
+                    <select id="seat-screen" onchange="loadSeatsForScreen()"></select>
+                </div>
+                <div class="form-group" style="flex:1;min-width:80px;margin:0;">
+                    <label>Row (e.g. A)</label>
+                    <input type="text" id="seat-row" placeholder="A" maxlength="2">
+                </div>
+                <div class="form-group" style="flex:1;min-width:60px;margin:0;">
+                    <label>From Col</label>
+                    <input type="number" id="seat-col-from" placeholder="1" min="1">
+                </div>
+                <div class="form-group" style="flex:1;min-width:60px;margin:0;">
+                    <label>To Col</label>
+                    <input type="number" id="seat-col-to" placeholder="10" min="1">
+                </div>
+                <div class="form-group" style="flex:1;min-width:100px;margin:0;">
+                    <label>Type</label>
+                    <select id="seat-type">
+                        <option value="REGULAR">REGULAR</option>
+                        <option value="PREMIUM">PREMIUM</option>
+                        <option value="VIP">VIP</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="addSeats()">Add Seats</button>
+            </div>
+            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:1rem;">💡 This will create seats from col "From" to col "To" for the given row (e.g. A1, A2...A10)</p>
+            <div id="seats-table"></div>
+        </div>
+
+        <!-- ===== SHOWS TAB ===== -->
+        <div id="tab-shows" class="tab-content" style="display:none;">
+            <div style="display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap; align-items:flex-end;">
+                <div class="form-group" style="flex:1;min-width:150px;margin:0;">
+                    <label>Movie</label>
+                    <select id="show-movie"></select>
+                </div>
+                <div class="form-group" style="flex:1;min-width:150px;margin:0;">
+                    <label>Screen</label>
+                    <select id="show-screen"></select>
+                </div>
+                <div class="form-group" style="flex:1;min-width:120px;margin:0;">
+                    <label>Date</label>
+                    <input type="date" id="show-date">
+                </div>
+                <div class="form-group" style="flex:1;min-width:100px;margin:0;">
+                    <label>Start Time</label>
+                    <input type="time" id="show-start">
+                </div>
+                <div class="form-group" style="flex:1;min-width:100px;margin:0;">
+                    <label>End Time</label>
+                    <input type="time" id="show-end">
+                </div>
+                <div class="form-group" style="flex:1;min-width:80px;margin:0;">
+                    <label>Ticket Price (₹)</label>
+                    <input type="number" id="show-price" placeholder="250">
+                </div>
+                <button class="btn btn-primary" onclick="addShow()">Add Show</button>
+            </div>
+            <div id="shows-table"></div>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        // ===== TAB SWITCHING =====
+        function switchTab(tab, el) {
+            document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + tab).style.display = 'block';
+            el.classList.add('active');
+        }
+
+        // ===== CITIES =====
+        async function loadCities() {
+            try {
+                const cities = await CityAPI.getAll();
+                // table
+                let html = '<table class="data-table"><thead><tr><th>ID</th><th>Name</th><th>State</th></tr></thead><tbody>';
+                cities.forEach(c => html += `<tr><td>${c.id}</td><td>${c.name}</td><td>${c.state || ''}</td></tr>`);
+                html += '</tbody></table>';
+                document.getElementById('cities-table').innerHTML = cities.length ? html : '<div class="empty-state"><p>No cities added yet</p></div>';
+
+                // dropdowns
+                const theaterCity = document.getElementById('theater-city');
+                if (theaterCity) {
+                    theaterCity.innerHTML = '<option value="">Select City</option>' + cities.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+                }
+            } catch (e) { console.log('Error loading cities'); }
+        }
+
+        async function addCity() {
+            const name = document.getElementById('city-name').value.trim();
+            const state = document.getElementById('city-state').value.trim();
+            if (!name) { showToast('Please enter city name', 'error'); return; }
+            try {
+                await CityAPI.add({ name, state });
+                showToast('City added!', 'success');
+                document.getElementById('city-name').value = '';
+                document.getElementById('city-state').value = '';
+                loadCities();
+            } catch (e) { showToast(e.message, 'error'); }
+        }
+
+        // ===== MOVIES =====
+        async function loadMovies() {
+            try {
+                const movies = await MovieAPI.getAll();
+                let html = '<table class="data-table"><thead><tr><th>ID</th><th>Title</th><th>Genre</th><th>Language</th><th>Duration</th><th>Rating</th><th>Actions</th></tr></thead><tbody>';
+                movies.forEach(m => html += `<tr>
+                    <td>${m.id}</td><td>${m.title}</td><td>${m.genre || ''}</td>
+                    <td>${m.language || ''}</td><td>${m.durationMinutes || ''} min</td>
+                    <td>${m.rating || ''}</td>
+                    <td><button class="btn btn-sm btn-danger" onclick="deleteMovie(${m.id})">Delete</button></td>
+                </tr>`);
+                html += '</tbody></table>';
+                document.getElementById('movies-table').innerHTML = movies.length ? html : '<div class="empty-state"><p>No movies added yet</p></div>';
+
+                // dropdown for shows
+                const showMovie = document.getElementById('show-movie');
+                if (showMovie) {
+                    showMovie.innerHTML = '<option value="">Select Movie</option>' + movies.map(m => `<option value="${m.id}">${m.title}</option>`).join('');
+                }
+            } catch (e) { console.log('Error loading movies'); }
+        }
+
+        async function addMovie() {
+            const data = {
+                title: document.getElementById('movie-title').value.trim(),
+                genre: document.getElementById('movie-genre').value.trim(),
+                language: document.getElementById('movie-language').value.trim(),
+                durationMinutes: parseInt(document.getElementById('movie-duration').value) || null,
+                rating: parseFloat(document.getElementById('movie-rating').value) || null,
+                releaseDate: document.getElementById('movie-release').value || null,
+                description: document.getElementById('movie-desc').value.trim()
+            };
+            if (!data.title) { showToast('Please enter movie title', 'error'); return; }
+            try {
+                await MovieAPI.add(data);
+                showToast('Movie added!', 'success');
+                ['movie-title','movie-genre','movie-language','movie-duration','movie-rating','movie-release','movie-desc']
+                    .forEach(id => document.getElementById(id).value = '');
+                loadMovies();
+            } catch (e) { showToast(e.message, 'error'); }
+        }
+
+        async function deleteMovie(id) {
+            if (!confirm('Delete this movie?')) return;
+            try {
+                await MovieAPI.delete(id);
+                showToast('Movie deleted', 'success');
+                loadMovies();
+            } catch (e) { showToast(e.message, 'error'); }
+        }
+
+        // ===== THEATERS =====
+        async function loadTheaters() {
+            try {
+                const theaters = await TheaterAPI.getAll();
+                let html = '<table class="data-table"><thead><tr><th>ID</th><th>Name</th><th>Address</th><th>City</th></tr></thead><tbody>';
+                theaters.forEach(t => html += `<tr><td>${t.id}</td><td>${t.name}</td><td>${t.address || ''}</td><td>${t.city?.name || ''}</td></tr>`);
+                html += '</tbody></table>';
+                document.getElementById('theaters-table').innerHTML = theaters.length ? html : '<div class="empty-state"><p>No theaters added yet</p></div>';
+
+                // dropdown for screens
+                const screenTheater = document.getElementById('screen-theater');
+                if (screenTheater) {
+                    screenTheater.innerHTML = '<option value="">Select Theater</option>' + theaters.map(t => `<option value="${t.id}">${t.name} (${t.city?.name || ''})</option>`).join('');
+                }
+            } catch (e) { console.log('Error loading theaters'); }
+        }
+
+        async function addTheater() {
+            const data = {
+                name: document.getElementById('theater-name').value.trim(),
+                address: document.getElementById('theater-address').value.trim(),
+                cityId: parseInt(document.getElementById('theater-city').value)
+            };
+            if (!data.name || !data.cityId) { showToast('Fill theater name and city', 'error'); return; }
+            try {
+                await TheaterAPI.add(data);
+                showToast('Theater added!', 'success');
+                document.getElementById('theater-name').value = '';
+                document.getElementById('theater-address').value = '';
+                loadTheaters();
+            } catch (e) { showToast(e.message, 'error'); }
+        }
+
+        // ===== SCREENS =====
+        async function loadScreens() {
+            try {
+                const screens = await ScreenAPI.getAll();
+                let html = '<table class="data-table"><thead><tr><th>ID</th><th>Name</th><th>Seats</th><th>Theater</th></tr></thead><tbody>';
+                screens.forEach(s => html += `<tr><td>${s.id}</td><td>${s.name}</td><td>${s.totalSeats || ''}</td><td>${s.theater?.name || ''}</td></tr>`);
+                html += '</tbody></table>';
+                document.getElementById('screens-table').innerHTML = screens.length ? html : '<div class="empty-state"><p>No screens added yet</p></div>';
+
+                // dropdowns
+                const opts = '<option value="">Select Screen</option>' + screens.map(s => `<option value="${s.id}">${s.name} — ${s.theater?.name || ''}</option>`).join('');
+                ['seat-screen', 'show-screen'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.innerHTML = opts;
+                });
+            } catch (e) { console.log('Error loading screens'); }
+        }
+
+        async function addScreen() {
+            const data = {
+                name: document.getElementById('screen-name').value.trim(),
+                totalSeats: parseInt(document.getElementById('screen-seats').value) || null,
+                theaterId: parseInt(document.getElementById('screen-theater').value)
+            };
+            if (!data.name || !data.theaterId) { showToast('Fill screen name and theater', 'error'); return; }
+            try {
+                await ScreenAPI.add(data);
+                showToast('Screen added!', 'success');
+                document.getElementById('screen-name').value = '';
+                document.getElementById('screen-seats').value = '';
+                loadScreens();
+            } catch (e) { showToast(e.message, 'error'); }
+        }
+
+        // ===== SEATS =====
+        async function loadSeatsForScreen() {
+            const screenId = document.getElementById('seat-screen').value;
+            if (!screenId) { document.getElementById('seats-table').innerHTML = ''; return; }
+            try {
+                const seats = await SeatAPI.getByScreen(screenId);
+                let html = '<table class="data-table"><thead><tr><th>ID</th><th>Seat #</th><th>Row</th><th>Col</th><th>Type</th></tr></thead><tbody>';
+                seats.forEach(s => html += `<tr><td>${s.id}</td><td>${s.seatNumber}</td><td>${s.row || ''}</td><td>${s.col || ''}</td><td>${s.seatType || ''}</td></tr>`);
+                html += '</tbody></table>';
+                document.getElementById('seats-table').innerHTML = seats.length ? html : '<div class="empty-state"><p>No seats for this screen</p></div>';
+            } catch (e) { document.getElementById('seats-table').innerHTML = ''; }
+        }
+
+        async function addSeats() {
+            const screenId = parseInt(document.getElementById('seat-screen').value);
+            const row = document.getElementById('seat-row').value.trim().toUpperCase();
+            const from = parseInt(document.getElementById('seat-col-from').value);
+            const to = parseInt(document.getElementById('seat-col-to').value);
+            const seatType = document.getElementById('seat-type').value;
+
+            if (!screenId || !row || !from || !to) { showToast('Fill all seat fields', 'error'); return; }
+            if (from > to) { showToast('From col must be <= To col', 'error'); return; }
+
+            try {
+                for (let col = from; col <= to; col++) {
+                    await SeatAPI.add({
+                        seatNumber: row + col,
+                        row: row,
+                        col: col,
+                        seatType: seatType,
+                        screenId: screenId
+                    });
+                }
+                showToast(`Added seats ${row}${from} to ${row}${to}!`, 'success');
+                loadSeatsForScreen();
+            } catch (e) { showToast(e.message, 'error'); }
+        }
+
+        // ===== SHOWS =====
+        async function loadShows() {
+            try {
+                const shows = await ShowAPI.getAll();
+                let html = '<table class="data-table"><thead><tr><th>ID</th><th>Movie</th><th>Screen</th><th>Date</th><th>Time</th><th>Price</th></tr></thead><tbody>';
+                shows.forEach(s => html += `<tr><td>${s.id}</td><td>${s.movie?.title || ''}</td><td>${s.screen?.name || ''} (${s.screen?.theater?.name || ''})</td><td>${s.showDate}</td><td>${s.startTime}-${s.endTime || ''}</td><td>₹${s.ticketPrice || 0}</td></tr>`);
+                html += '</tbody></table>';
+                document.getElementById('shows-table').innerHTML = shows.length ? html : '<div class="empty-state"><p>No shows added yet</p></div>';
+            } catch (e) { console.log('Error loading shows'); }
+        }
+
+        async function addShow() {
+            const data = {
+                movieId: parseInt(document.getElementById('show-movie').value),
+                screenId: parseInt(document.getElementById('show-screen').value),
+                showDate: document.getElementById('show-date').value,
+                startTime: document.getElementById('show-start').value,
+                endTime: document.getElementById('show-end').value || null,
+                ticketPrice: parseFloat(document.getElementById('show-price').value) || 0
+            };
+            if (!data.movieId || !data.screenId || !data.showDate || !data.startTime) {
+                showToast('Fill movie, screen, date and start time', 'error'); return;
+            }
+            try {
+                await ShowAPI.add(data);
+                showToast('Show added!', 'success');
+                ['show-date','show-start','show-end','show-price'].forEach(id => document.getElementById(id).value = '');
+                loadShows();
+            } catch (e) { showToast(e.message, 'error'); }
+        }
+
+        // ===== INIT =====
+        async function init() {
+            await Promise.all([loadCities(), loadMovies(), loadTheaters(), loadScreens(), loadShows()]);
+        }
+        init();
+    </script>
+</body>
+</html>

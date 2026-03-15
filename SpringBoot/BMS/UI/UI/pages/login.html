@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - BookMyShow</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="../index.html" class="logo">Book<span>My</span>Show</a>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="movies.html">Movies</a>
+        </div>
+        <div class="nav-user" id="nav-user"></div>
+    </nav>
+
+    <div class="container" style="max-width: 450px; margin-top: 3rem;">
+        <div class="card" style="border:none;">
+            <div class="card-body" style="padding: 2rem;">
+                <h2 style="text-align:center; margin-bottom: 1.5rem; color: var(--white);">Welcome Back 👋</h2>
+                <form id="login-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" style="margin-top: 0.5rem;">Login</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+                    Don't have an account? <a href="register.html" style="color: var(--primary); font-weight:600;">Sign Up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        async function handleLogin(e) {
+            e.preventDefault();
+            const data = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
+            try {
+                const user = await UserAPI.login(data);
+                setLoggedInUser(user);
+                showToast(`Welcome back, ${user.name}!`, 'success');
+                setTimeout(() => window.location.href = '../index.html', 1000);
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

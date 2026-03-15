@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movies - BookMyShow</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="../index.html" class="logo">Book<span>My</span>Show</a>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="movies.html" class="active">Movies</a>
+        <a href="theaters.html">Theaters</a>
+        <a href="bookings.html">My Bookings</a>
+        <a href="admin.html">Admin</a>
+      </div>
+      <div class="nav-user" id="nav-user"></div>
+    </nav>
+
+    <div class="container">
+      <h2 class="section-title">All Movies</h2>
+
+      <!-- Filters -->
+      <div
+        style="
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+          flex-wrap: wrap;
+          align-items: center;
+        "
+      >
+        <input
+          type="text"
+          id="search"
+          placeholder="Search movies..."
+          style="
+            flex: 1;
+            min-width: 200px;
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-card);
+            color: var(--text);
+            font-size: 0.95rem;
+            outline: none;
+          "
+          oninput="filterMovies()"
+        />
+        <select
+          id="genre-filter"
+          onchange="filterMovies()"
+          style="
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-card);
+            color: var(--text);
+            font-size: 0.9rem;
+            outline: none;
+          "
+        >
+          <option value="">All Genres</option>
+        </select>
+        <select
+          id="lang-filter"
+          onchange="filterMovies()"
+          style="
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-card);
+            color: var(--text);
+            font-size: 0.9rem;
+            outline: none;
+          "
+        >
+          <option value="">All Languages</option>
+        </select>
+      </div>
+
+      <div class="grid grid-4" id="movies-grid"></div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+      let allMovies = [];
+
+      async function loadMovies() {
+        showLoading("movies-grid");
+        try {
+          allMovies = await MovieAPI.getAll();
+          renderMovies(allMovies);
+          populateFilters();
+        } catch (e) {
+          showEmpty("movies-grid", "Could not load movies");
+        }
+      }
+
+      function populateFilters() {
+        const genres = [
+          ...new Set(allMovies.map((m) => m.genre).filter(Boolean)),
+        ];
+        const langs = [
+          ...new Set(allMovies.map((m) => m.language).filter(Boolean)),
+        ];
+        const gf = document.getElementById("genre-filter");
+        const lf = document.getElementById("lang-filter");
+        genres.forEach(
+          (g) => (gf.innerHTML += `<option value="${g}">${g}</option>`),
+        );
+        langs.forEach(
+          (l) => (lf.innerHTML += `<option value="${l}">${l}</option>`),
+        );
+      }
+
+      function filterMovies() {
+        const q = document.getElementById("search").value.toLowerCase();
+        const genre = document.getElementById("genre-filter").value;
+        const lang = document.getElementById("lang-filter").value;
+        let filtered = allMovies;
+        if (q)
+          filtered = filtered.filter((m) => m.title.toLowerCase().includes(q));
+        if (genre) filtered = filtered.filter((m) => m.genre === genre);
+        if (lang) filtered = filtered.filter((m) => m.language === lang);
+        renderMovies(filtered);
+      }
+
+      function renderMovies(movies) {
+        const grid = document.getElementById("movies-grid");
+        if (movies.length === 0) {
+          showEmpty("movies-grid", "No movies found");
+          return;
+        }
+        grid.innerHTML = movies
+          .map(
+            (m) => `
+                <a href="movie-detail.html?id=${m.id}" class="card">
+                    <div class="card-img" style="display:flex;align-items:center;justify-content:center;font-size:4rem;background:linear-gradient(135deg, #1a1a2e, #16213e);">
+                        <img src="${m.posterUrl || "../assets/default-movie.png"}" alt="${m.title}" style="max-width:100%; max-height:100%; border-radius:4px;" />
+                    </div>
+                    <div class="card-body">
+                        <h3>${m.title}</h3>
+                        <p>${m.description || ""}</p>
+                        <div style="margin-top:0.5rem; display:flex; gap:0.4rem; flex-wrap:wrap;">
+                            ${m.genre ? `<span class="badge badge-genre">${m.genre}</span>` : ""}
+                            ${m.language ? `<span class="badge badge-lang">${m.language}</span>` : ""}
+                            ${m.rating ? `<span class="badge badge-rating">⭐ ${m.rating}</span>` : ""}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span style="font-size:0.8rem;color:var(--text-muted);">${m.durationMinutes ? m.durationMinutes + " min" : ""}</span>
+                        <span class="btn btn-sm btn-primary">Book Now</span>
+                    </div>
+                </a>
+            `,
+          )
+          .join("");
+      }
+
+      loadMovies();
+    </script>
+  </body>
+</html>

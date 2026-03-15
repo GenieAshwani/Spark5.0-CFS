@@ -1,7 +1,6 @@
-package com.cfs.EmployeeMngt.entity;
+package com.example.demo.entity;
 
 import jakarta.persistence.*;
-
 
 
 /*
@@ -25,14 +24,12 @@ public class Employee {
     @Column(nullable = false,length = 50)
     private String email;
 
-    @Column(nullable = false,length = 50)
-    private String department;
-
     @Column(nullable = false )
     private Double salary;
 
-    @Transient
-    private String tmp;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "department_id")
+    private Department department;
 
 
     public Employee()
@@ -40,13 +37,12 @@ public class Employee {
 
     }
 
-    public Employee(Integer id, String name, String email, String department, Double salary, String tmp) {
+    public Employee(Integer id, String name, String email, Double salary, Department department) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.department = department;
         this.salary = salary;
-        this.tmp = tmp;
+        this.department = department;
     }
 
     public Integer getId() {
@@ -73,14 +69,6 @@ public class Employee {
         this.email = email;
     }
 
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
     public Double getSalary() {
         return salary;
     }
@@ -89,11 +77,11 @@ public class Employee {
         this.salary = salary;
     }
 
-    public String getTmp() {
-        return tmp;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setTmp(String tmp) {
-        this.tmp = tmp;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

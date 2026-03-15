@@ -1,4 +1,8 @@
 package com.cfs.EmployeeMngt.repository;
 
-public class EmployeeRepo {
+import com.cfs.EmployeeMngt.entity.Employee;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+
+public interface EmployeeRepo extends JpaRepository<Employee,Integer> {
 }

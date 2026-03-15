@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookMyShow</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <a href="index.html" class="logo">Book<span>My</span>Show</a>
+      <div class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="pages/movies.html">Movies</a>
+        <a href="pages/theaters.html">Theaters</a>
+        <a href="pages/bookings.html">My Bookings</a>
+        <a href="pages/admin.html">Admin</a>
+      </div>
+      <div class="nav-user" id="nav-user"></div>
+    </nav>
+
+    <!-- CITY BAR -->
+    <div class="city-bar" id="city-bar">
+      <span
+        style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600"
+        >📍 City:</span
+      >
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1>Your <span>Entertainment</span> Starts Here</h1>
+      <p>Book movie tickets for the latest shows in your city</p>
+      <div class="search-bar">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search for movies..."
+          oninput="searchMovies()"
+        />
+        <button class="btn btn-primary" onclick="searchMovies()">Search</button>
+      </div>
+    </section>
+
+    <!-- MOVIES SECTION -->
+    <div class="container">
+      <h2 class="section-title">Now Showing</h2>
+      <div class="grid grid-4" id="movies-grid"></div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/utils.js"></script>
+    <script>
+      let allMovies = [];
+
+      async function loadCities() {
+        try {
+          const cities = await CityAPI.getAll();
+          const bar = document.getElementById("city-bar");
+          cities.forEach((city, i) => {
+            const chip = document.createElement("button");
+            chip.className = "city-chip" + (i === 0 ? " active" : "");
+            chip.textContent = city.name;
+            chip.onclick = () => {
+              document
+                .querySelectorAll(".city-chip")
+                .forEach((c) => c.classList.remove("active"));
+              chip.classList.add("active");
+              showToast(`City: ${city.name}`, "info");
+            };
+            bar.appendChild(chip);
+          });
+        } catch (e) {
+          console.log("No cities loaded yet");
+        }
+      }
+
+      async function loadMovies() {
+        showLoading("movies-grid");
+        try {
+          allMovies = await MovieAPI.getAll();
+          renderMovies(allMovies);
+        } catch (e) {
+          showEmpty(
+            "movies-grid",
+            "Could not load movies. Is the backend running?",
+          );
+        }
+      }
+
+      function renderMovies(movies) {
+        const grid = document.getElementById("movies-grid");
+        if (movies.length === 0) {
+          showEmpty("movies-grid", "No movies found");
+          return;
+        }
+        grid.innerHTML = movies
+          .map(
+            (m) => `
+                <a href="pages/movie-detail.html?id=${m.id}" class="card">
+                    <div class="card-img" style="display:flex;align-items:center;justify-content:center;font-size:4rem;background:linear-gradient(135deg, #1a1a2e, #16213e);">
+                        <img src="${m.posterUrl || "assets/default-movie.png"}" alt="${m.title}" style="max-width:100%; max-height:100%; border-radius:4px;" />
+                    </div>
+                    <div class="card-body">
+                        <h3>${m.title}</h3>
+                        <p>${m.description || ""}</p>
+                        <div style="margin-top:0.5rem; display:flex; gap:0.4rem; flex-wrap:wrap;">
+                            ${m.genre ? `<span class="badge badge-genre">${m.genre}</span>` : ""}
+                            ${m.language ? `<span class="badge badge-lang">${m.language}</span>` : ""}
+                            ${m.rating ? `<span class="badge badge-rating">⭐ ${m.rating}</span>` : ""}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span style="font-size:0.8rem;color:var(--text-muted);">${m.durationMinutes ? m.durationMinutes + " min" : ""}</span>
+                        <span class="btn btn-sm btn-primary">Book Now</span>
+                    </div>
+                </a>
+            `,
+          )
+          .join("");
+      }
+
+      function searchMovies() {
+        const q = document
+          .getElementById("search-input")
+          .value.toLowerCase()
+          .trim();
+        if (!q) {
+          renderMovies(allMovies);
+          return;
+        }
+        const filtered = allMovies.filter(
+          (m) =>
+            m.title.toLowerCase().includes(q) ||
+            (m.genre && m.genre.toLowerCase().includes(q)) ||
+            (m.language && m.language.toLowerCase().includes(q)),
+        );
+        renderMovies(filtered);
+      }
+
+      loadCities();
+      loadMovies();
+    </script>
+  </body>
+</html>
