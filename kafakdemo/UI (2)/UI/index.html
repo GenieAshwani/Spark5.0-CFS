@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Enrollment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="#" aria-label="SkillSpring home">
+            <span class="brand-mark">S</span>
+            <span>SkillSpring</span>
+        </a>
+        <div class="topbar-actions">
+            <span class="secure-chip">Razorpay test mode</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Course checkout</p>
+                <h1>Enroll, pay, and get your confirmation by email.</h1>
+                <p class="summary">Pick a course, complete Razorpay payment, and the backend will publish a Kafka event for the notification service.</p>
+                <div class="pipeline" aria-label="Payment pipeline">
+                    <span>Student</span>
+                    <span>Razorpay</span>
+                    <span>Kafka</span>
+                    <span>Email</span>
+                </div>
+            </div>
+            <div class="hero-visual" aria-hidden="true">
+                <div class="visual-card visual-card-primary">
+                    <span class="visual-label">Order</span>
+                    <strong>₹499</strong>
+                    <small>Java Spring Boot</small>
+                </div>
+                <div class="visual-card visual-card-secondary">
+                    <span class="visual-dot"></span>
+                    <div>
+                        <strong>Notification queued</strong>
+                        <small>course-enrollment-notifications</small>
+                    </div>
+                </div>
+                <div class="visual-rail">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="checkout-layout">
+            <div class="checkout-main">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Step 1</p>
+                        <h2>Student details</h2>
+                    </div>
+                    <span class="hint">Used for Razorpay prefill and email confirmation</span>
+                </div>
+
+                <form id="studentForm" class="student-form">
+                    <label>
+                        Student name
+                        <input id="studentName" name="studentName" type="text" placeholder="Aarav Sharma" required>
+                    </label>
+                    <label>
+                        Email
+                        <input id="email" name="email" type="email" placeholder="student@example.com" required>
+                    </label>
+                </form>
+
+                <div class="section-heading course-heading">
+                    <div>
+                        <p class="eyebrow">Step 2</p>
+                        <h2>Select course</h2>
+                    </div>
+                    <span class="hint">Choose one course to continue to payment</span>
+                </div>
+
+                <div id="courseList" class="course-list" aria-live="polite"></div>
+            </div>
+
+            <aside class="summary-panel" aria-label="Checkout summary">
+                <div>
+                    <p class="eyebrow">Summary</p>
+                    <h2 id="summaryTitle">No course selected</h2>
+                    <p id="summaryDescription">Select a course to see checkout details.</p>
+                </div>
+                <dl class="summary-list">
+                    <div>
+                        <dt>Student</dt>
+                        <dd id="summaryStudent">Not added</dd>
+                    </div>
+                    <div>
+                        <dt>Email</dt>
+                        <dd id="summaryEmail">Not added</dd>
+                    </div>
+                    <div>
+                        <dt>Total</dt>
+                        <dd id="summaryPrice">₹0</dd>
+                    </div>
+                </dl>
+                <div class="trust-box">
+                    <strong>What happens after payment?</strong>
+                    <p>Payment is verified in Spring Boot, then a Kafka event triggers the notification service to send the email.</p>
+                </div>
+                <p id="statusMessage" class="status-message">Loading courses...</p>
+            </aside>
+        </section>
+    </main>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
