@@ -1,0 +1,7 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: rag-p01-qdrant
+    ports:
+      - "6333:6333"   # REST API
+      - "6334:6334"

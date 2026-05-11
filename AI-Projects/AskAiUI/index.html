@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AskAi Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="studio" aria-label="AskAi chat">
+      <aside class="sidebar" aria-label="Workspace summary">
+        <div class="brand">
+          <div class="brand-mark">A</div>
+          <div>
+            <p>AskAi</p>
+            <span>Intelligence Studio</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <span class="metric-label">Endpoint</span>
+          <strong>localhost:8080</strong>
+          <small>Spring Boot API</small>
+        </div>
+
+        <div class="sidebar-section">
+          <h2>Quick Prompts</h2>
+          <button class="prompt-chip" type="button">Explain Spring AI in simple words</button>
+          <button class="prompt-chip" type="button">Create a Java controller example</button>
+          <button class="prompt-chip" type="button">Write a professional email draft</button>
+        </div>
+
+        <div class="sidebar-footer">
+          <span class="spark-line"></span>
+          <p>Connected UI for your AskAi backend.</p>
+        </div>
+      </aside>
+
+      <section class="chat-panel" aria-label="Conversation">
+        <header class="chat-header">
+          <div>
+            <p class="eyebrow">Premium Chat</p>
+            <h1>Ask smarter. Ship faster.</h1>
+          </div>
+          <div class="header-actions">
+            <div class="model-pill">OpenAI</div>
+            <div class="status-pill" id="statusPill">
+              <span class="status-dot"></span>
+              <span class="status-text">Ready</span>
+            </div>
+          </div>
+        </header>
+
+        <div class="messages" id="messages" aria-live="polite">
+          <article class="message assistant-message">
+            <div class="avatar">AI</div>
+            <div class="bubble">
+              <span class="message-label">AskAi Assistant</span>
+              <p>Hello. Ask me anything and I will send it to your Spring Boot AskAi API.</p>
+            </div>
+          </article>
+        </div>
+
+        <form class="composer" id="chatForm">
+          <label class="sr-only" for="questionInput">Message</label>
+          <div class="input-wrap">
+            <textarea id="questionInput" rows="1" placeholder="Ask about code, writing, planning, or anything else..." required></textarea>
+          </div>
+          <button class="send-button" type="submit" id="sendButton" aria-label="Send message">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.4 20.4 21 12 3.4 3.6 3 10.1 14 12 3 13.9l.4 6.5Z"></path>
+            </svg>
+          </button>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

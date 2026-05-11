@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatBot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="chatgpt-shell">
+    <aside class="sidebar" aria-label="Chat navigation">
+      <div class="sidebar-top">
+        <button class="new-chat-button" type="button">
+          <span class="plus-icon">+</span>
+          New chat
+        </button>
+        <button class="icon-button" id="connectButton" type="button" aria-label="Connect socket">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7.5 12a4.5 4.5 0 0 1 4.5-4.5h3v2h-3a2.5 2.5 0 0 0 0 5h3v2h-3A4.5 4.5 0 0 1 7.5 12Zm4-1h1v2h-1v-2Zm1.5-3.5h3a4.5 4.5 0 0 1 0 9h-3v-2h3a2.5 2.5 0 0 0 0-5h-3v-2Z"></path>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="history-list" aria-label="Recent chats">
+        <button type="button" class="history-item active">Spring Boot WebSocket chat</button>
+        <button type="button" class="history-item prompt-chip">Explain WebSockets in Java</button>
+        <button type="button" class="history-item prompt-chip">Give me a Gemini chatbot flow</button>
+        <button type="button" class="history-item prompt-chip">Create a Spring Boot chat handler</button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <button class="profile-button" id="disconnectButton" type="button">
+          <span class="profile-avatar">C</span>
+          <span>
+            <strong>ChatBot</strong>
+            <small>ws://localhost:8080/chat</small>
+          </span>
+        </button>
+      </div>
+    </aside>
+
+    <section class="conversation" aria-label="ChatBot conversation">
+      <header class="topbar">
+        <button class="model-button" type="button">
+          ChatBot
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m7 10 5 5 5-5H7Z"></path>
+          </svg>
+        </button>
+        <div class="status-pill" id="statusPill">
+          <span class="status-dot"></span>
+          <span id="statusText">Disconnected</span>
+        </div>
+      </header>
+
+      <div class="messages" id="messages" aria-live="polite">
+        <article class="message bot-message">
+          <div class="avatar">CB</div>
+          <div class="bubble">
+            <p>Start the Spring Boot ChatBot app, connect to the socket, then send a message.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="composer-area">
+        <form class="composer" id="chatForm">
+          <label class="sr-only" for="messageInput">Message</label>
+          <textarea id="messageInput" rows="1" placeholder="Message ChatBot..." required></textarea>
+          <button class="send-button" id="sendButton" type="submit" aria-label="Send message">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 4 5 11l1.4 1.4L11 7.8V20h2V7.8l4.6 4.6L19 11 12 4Z"></path>
+            </svg>
+          </button>
+        </form>
+        <p class="composer-note">ChatBot can make mistakes. Check important information.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
